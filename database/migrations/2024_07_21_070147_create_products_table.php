@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('discription')->nullable();
             $table->text('content')->nullable();
             $table->unsignedInteger('quantity');
-            $table->unsignedBigInteger('views');
+            $table->unsignedBigInteger('views')->default(0);
             $table->date('import_date');
             $table->foreignIdFor(Category::class)->constrained();
             $table->boolean('is_type')->default(true);

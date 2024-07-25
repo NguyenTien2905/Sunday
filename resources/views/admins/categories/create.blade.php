@@ -49,7 +49,7 @@
                                             <input type="file" id="icon" name="icon"
                                                 placeholder="Hình ảnh danh mục"
                                                 class="form-control"
-                                                onchange="showIcon(event)">
+                                                onchange="showImage(event)">
                                                 <img src="" id="img_icon" alt="Hình ảnh danh mục" style="width: 100px; display: none;"> 
                                         </div>
                                     </form>
@@ -91,7 +91,7 @@
 
 @section('js')
 <script>
-    function showIcon(event){
+    function showImage(event){
         const img_icon = document.getElementById('img_icon');
 
         console.log(img_icon);

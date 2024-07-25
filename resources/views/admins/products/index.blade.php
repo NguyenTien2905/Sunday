@@ -23,7 +23,7 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="card-title align-content-center mb-0">{{ $title }}</h5>
-                        <a href="{{ route('admins.categories.create') }}" class="btn btn-success">
+                        <a href="{{ route('admins.products.create') }}" class="btn btn-success">
                             <i data-feather="plus-square"></i>Thêm danh mục</a>
                     </div><!-- end card header -->
 
@@ -41,27 +41,36 @@
                             <table class="table table-striped mb-0">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
+                                        <th scope="col">Mẫ sản phẩm</th>
                                         <th scope="col">Hình ảnh</th>
-                                        <th scope="col">Tên danh mục</th>
+                                        <th scope="col">Tên sản phẩm</th>
+                                        <th scope="col">Danh mục</th>
+                                        <th scope="col">Giá sản phẩm</th>
+                                        <th scope="col">Giá khuyến mãi</th>
+                                        <th scope="col">Số lượng</th>
                                         <th scope="col">Trạng thái</th>
                                         <th scope="col">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($listCategory as $index => $item)
+                                    @foreach ($listProduct as $index => $item)
                                         <tr>
-                                            <th scope="row">{{ $index + 1 }}</th>
+                                            <th scope="row">{{ $item->sku }}</th>
                                             <td>
-                                                <img src="{{ Storage::url($item->icon) }}" alt="" width="100px">
+                                                <img src="{{ Storage::url($item->img_thumnail) }}" alt=""
+                                                    width="100px">
                                             </td>
                                             <td>{{ $item->name }}</td>
-                                            <td class="{{ $item->status == true ? 'text-primary' : 'text-danger' }}">
-                                                {{ $item->status == true ? 'Hiển thị' : 'Ẩn' }}</td>
+                                            <td>{{ $item->category->name }}</td>
+                                            <td>{{ $item->price_regular }}</td>
+                                            <td>{{ empty($item->price_sale) ? 0 : $item->price_sale }}</td>
+                                            <td>{{ $item->quantity }}</td>
+                                            <td class="{{ $item->is_type == true ? 'text-primary' : 'text-danger' }}">
+                                                {{ $item->is_type == true ? 'Hiển thị' : 'Ẩn' }}</td>
                                             <td>
-                                                <a href="{{ route('admins.categories.edit', $item->id) }}"><i
+                                                <a href="{{ route('admins.products.edit', $item->id) }}"><i
                                                         class="mdi mdi-pencil text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
-                                                <form action="{{ route('admins.categories.delete', $item->id) }}"
+                                                <form action="{{ route('admins.products.delete', $item->id) }}"
                                                     method="POST" class="d-inline"
                                                     onclick="if(!confirm('Bạn chắc chắn muốn xóa không?')){event.preventDefault()}">
                                                     @csrf

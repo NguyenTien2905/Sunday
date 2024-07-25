@@ -28,7 +28,7 @@
                 <li class="menu-title">Quản trị</li>
 
                 <li>
-                    <a class='tp-link' href='calendar.html'>
+                    <a class='tp-link' href='{{ route('admins.dashbroad') }}'>
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
                     </a>
@@ -44,14 +44,14 @@
                 <li class="menu-title">Kinh doanh</li>
 
                 <li>
-                    <a class='tp-link' href='calendar.html'>
+                    <a class='tp-link' href='{{ route('admins.categories.index') }}'>
                         <i data-feather="align-center"></i>
                         <span> Danh mục sản phẩm </span>
                     </a>
                 </li>
 
                 <li>
-                    <a class='tp-link' href='calendar.html'>
+                    <a class='tp-link' href='{{ route('admins.products.index') }}'>
                         <i data-feather="package"></i>
                         <span> Sản phẩm  </span>
                     </a>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckRoleAdminMiddleware;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +48,8 @@ Route::middleware(['auth', 'auth.admin'])->prefix('admins')
         Route::get('/', function () {
             return view('admins.dashbroad');
         })->name('dashbroad');
- 
+
+        //Route Danh mục
         Route::prefix('categories')
             ->as('categories.')
             ->group(function () {
@@ -58,5 +60,18 @@ Route::middleware(['auth', 'auth.admin'])->prefix('admins')
                 Route::get('{id}/edit', [CategoryController::class, 'edit'])->name('edit');
                 Route::put('{id}/update', [CategoryController::class, 'update'])->name('update');
                 Route::delete('{id}/delete', [CategoryController::class, 'destroy'])->name('delete');
+            });
+
+        // Route Sản phẩm
+        Route::prefix('products')
+            ->as('products.')
+            ->group(function () {
+                Route::get('/', [ProductController::class, 'index'])->name('index');
+                Route::get('/create', [ProductController::class, 'create'])->name('create');
+                Route::post('/store', [ProductController::class, 'store'])->name('store');
+                Route::get('/show/{id}', [ProductController::class, 'show'])->name('show');
+                Route::get('{id}/edit', [ProductController::class, 'edit'])->name('edit');
+                Route::put('{id}/update', [ProductController::class, 'update'])->name('update');
+                Route::delete('{id}/delete', [ProductController::class, 'destroy'])->name('delete');
             });
     });
