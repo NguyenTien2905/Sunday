@@ -165,23 +165,45 @@ class ProductController extends Controller
                 }
             }
 
-            // Trường hợp Thêm và Sửa
-            foreach ($request->list_images as $key => $image) {
-                if (!array_key_exists($key, $arrayCombine)) {
-                    if ($request->hasFile("list_images")) {
+            // Trường hợp Thêm và Sửa ( Cách thầy)
+            // foreach ($request->list_images as $key => $image) {
+            //     if (!array_key_exists($key, $arrayCombine)) {
+            //         if ($request->hasFile("list_images")) {
+            //             $path = $image->store('uploads/imagesproducts/id_' . $id, 'public');
+            //             $product->imagesProduct()->create([
+            //                 'product_id' => $id,
+            //                 'image' => $path,
+            //             ]);
+            //         } else if (is_file($image) && $request->hasFile("list_images.$key")) {
+            //             // Trường hợp thay đổi hình ảnh
+            //             $img = ImageProduct::query()->find($key);
+            //             if ($img && Storage::disk('public')->exists($img->image)) {
+            //                 Storage::disk('public')->delete($img->image);
+            //             }
+            //             $path = $image->store('uploads/imagesproducts/id_' . $id, 'public');
+            //             $product->imagesProduct()->update([
+            //                 'image' => $path,
+            //             ]);
+            //         }
+            //     }
+            // }
+            //Cách khác
+            foreach ($request->file('list_images', []) as $key => $image) {
+                if ($image->isValid()) {
+                    $img = ImageProduct::find($key);
+                    if ($img) {
+                        // Xóa ảnh cũ nếu tồn tại
+                        if (Storage::disk('public')->exists($img->image)) {
+                            Storage::disk('public')->delete($img->image);
+                        }
+                        // Lưu ảnh mới
+                        $path = $image->store('uploads/imagesproducts/id_' . $id, 'public');
+                        $img->update(['image' => $path]);
+                    } else {
+                        // Tạo ảnh mới
                         $path = $image->store('uploads/imagesproducts/id_' . $id, 'public');
                         $product->imagesProduct()->create([
                             'product_id' => $id,
-                            'image' => $path,
-                        ]);
-                    } elseif (is_file($image) && $request->hasFile("list_images.$key")) {
-                        // Trường hợp thay đổi hình ảnh
-                        $img = ImageProduct::query()->find($key);
-                        if ($img && Storage::disk('public')->exists($img->image)) {
-                            Storage::disk('public')->delete($img->image);
-                        }
-                        $path = $image->store('uploads/imagesproducts/id_' . $id, 'public');
-                        $product->imagesProduct()->update([
                             'image' => $path,
                         ]);
                     }
