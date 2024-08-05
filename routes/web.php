@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\client\CartController;
 use App\Http\Controllers\Client\ProductController as ClientProductController;
+use App\Http\Controllers\HomeController;
 use App\Http\Middleware\CheckRoleAdminMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -37,15 +38,20 @@ use Illuminate\Support\Facades\Route;
 //     return 'Đây là trang Admin';
 // })->middleware(['auth', 'auth.admin']);
 
+Auth::routes();
+
+
+// Route Client
+// Route::get('/', [HomeController::class, 'index'])->name('client.home');
 Route::get('/products/detail/{id}', [ClientProductController::class, 'detail'])->name('product.detail');
 Route::get('/list-cart',            [CartController::class, 'listCart'])->name('cart.list');
 Route::post('/add-to-cart',         [CartController::class, 'addCart'])->name('cart.add');
-Route::get('/update-cart',          [CartController::class, 'updateCart'])->name('cart.update');
+Route::post('/update-cart',          [CartController::class, 'updateCart'])->name('cart.update');
 
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 // Route Admin

@@ -16,6 +16,7 @@ class CartController extends Controller
         $total  = 0;
         $subTotal = 0;
         foreach ($cart as $item) {
+
             $subTotal += $item['price']  * $item['quantity'];
         }
 
@@ -54,8 +55,12 @@ class CartController extends Controller
         return redirect()->back();
     }
 
-    public function updateCart()
+    public function updateCart(Request $request)
     {
-        
+        $cartNew = $request->input('cart', []);
+
+        session()->put('cart', $cartNew);
+
+        return redirect()->back();
     }
 }
