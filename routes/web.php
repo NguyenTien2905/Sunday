@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\client\CartController;
+use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\ProductController as ClientProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Middleware\CheckRoleAdminMiddleware;
@@ -43,11 +44,23 @@ Auth::routes();
 
 // Route Client
 // Route::get('/', [HomeController::class, 'index'])->name('client.home');
-Route::get('/products/detail/{id}', [ClientProductController::class, 'detail'])->name('product.detail');
-Route::get('/list-cart',            [CartController::class, 'listCart'])->name('cart.list');
-Route::post('/add-to-cart',         [CartController::class, 'addCart'])->name('cart.add');
-Route::post('/update-cart',          [CartController::class, 'updateCart'])->name('cart.update');
+Route::get('/products/detail/{id}',     [ClientProductController::class, 'detail'])->name('product.detail');
+Route::get('/list-cart',                [CartController::class, 'listCart'])->name('cart.list');
+Route::post('/add-to-cart',             [CartController::class, 'addCart'])->name('cart.add');
+Route::post('/update-cart',             [CartController::class, 'updateCart'])->name('cart.update');
 
+
+//Route đơn hàng
+Route::middleware('auth')
+    ->prefix('orders')
+    ->as('orders.')
+    ->group(function () {
+        Route::get('/',             [OrderController::class, 'index'])->name('index');
+        Route::get('/create',       [OrderController::class, 'create'])->name('create');
+        Route::post('/store',       [OrderController::class, 'store'])->name('store');
+        Route::get('/show/{id}',    [OrderController::class, 'show'])->name('show');
+        Route::put('{id}/update',   [OrderController::class, 'update'])->name('update');
+    });
 
 
 
@@ -67,25 +80,25 @@ Route::middleware(['auth', 'auth.admin'])->prefix('admins')
         Route::prefix('categories')
             ->as('categories.')
             ->group(function () {
-                Route::get('/', [CategoryController::class, 'index'])->name('index');
-                Route::get('/create', [CategoryController::class, 'create'])->name('create');
-                Route::post('/store', [CategoryController::class, 'store'])->name('store');
-                Route::get('/show/{id}', [CategoryController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [CategoryController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [CategoryController::class, 'update'])->name('update');
-                Route::delete('{id}/delete', [CategoryController::class, 'destroy'])->name('delete');
+                Route::get('/',                 [CategoryController::class, 'index'])->name('index');
+                Route::get('/create',           [CategoryController::class, 'create'])->name('create');
+                Route::post('/store',           [CategoryController::class, 'store'])->name('store');
+                Route::get('/show/{id}',        [CategoryController::class, 'show'])->name('show');
+                Route::get('{id}/edit',         [CategoryController::class, 'edit'])->name('edit');
+                Route::put('{id}/update',       [CategoryController::class, 'update'])->name('update');
+                Route::delete('{id}/delete',    [CategoryController::class, 'destroy'])->name('delete');
             });
 
         // Route Sản phẩm
         Route::prefix('products')
             ->as('products.')
             ->group(function () {
-                Route::get('/', [ProductController::class, 'index'])->name('index');
-                Route::get('/create', [ProductController::class, 'create'])->name('create');
-                Route::post('/store', [ProductController::class, 'store'])->name('store');
-                Route::get('/show/{id}', [ProductController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [ProductController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [ProductController::class, 'update'])->name('update');
-                Route::delete('{id}/delete', [ProductController::class, 'destroy'])->name('delete');
+                Route::get('/',                 [ProductController::class, 'index'])->name('index');
+                Route::get('/create',           [ProductController::class, 'create'])->name('create');
+                Route::post('/store',           [ProductController::class, 'store'])->name('store');
+                Route::get('/show/{id}',        [ProductController::class, 'show'])->name('show');
+                Route::get('{id}/edit',         [ProductController::class, 'edit'])->name('edit');
+                Route::put('{id}/update',       [ProductController::class, 'update'])->name('update');
+                Route::delete('{id}/delete',    [ProductController::class, 'destroy'])->name('delete');
             });
     });

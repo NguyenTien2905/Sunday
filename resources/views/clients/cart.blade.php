@@ -38,9 +38,16 @@
     <div class="cart-main-wrapper section-padding">
         <div class="container">
             <div class="section-bg-color">
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-lg-12">
-                        <form action="{{ route('cart.update')}}" method="post">
+
+                        <form action="{{ route('cart.update') }}" method="post">
                             @csrf
                             <!-- Cart Table Area -->
                             <div class="cart-table table-responsive">
@@ -61,22 +68,26 @@
                                                 <td class="pro-thumbnail"><a href="#"><img class="img-fluid"
                                                             src="{{ Storage::url($item['img_thumnail']) }}"
                                                             alt="Product" /></a>
-                                                            <input type="hidden" name="cart[{{$key}}][img_thumnail]" value="{{ $item['img_thumnail'] }}">
+                                                    <input type="hidden" name="cart[{{ $key }}][img_thumnail]"
+                                                        value="{{ $item['img_thumnail'] }}">
                                                 </td>
                                                 <td class="pro-title"><a
                                                         href="{{ route('product.detail', $key) }}">{{ $item['name'] }}</a>
-                                                        <input type="hidden" name="cart[{{$key}}][name]" value="{{ $item['name'] }}">
+                                                    <input type="hidden" name="cart[{{ $key }}][name]"
+                                                        value="{{ $item['name'] }}">
                                                 </td>
                                                 <td class="pro-price">
                                                     <span>{{ number_format($item['price'], 0, '', '.') }} đ</span>
-                                                    <input type="hidden" name="cart[{{$key}}][price]" value="{{ $item['price'] }}">
+                                                    <input type="hidden" name="cart[{{ $key }}][price]"
+                                                        value="{{ $item['price'] }}">
                                                 </td>
                                                 <td class="pro-quantity">
                                                     <div class="pro-qty">
                                                         <input type="text" class="quantityInput"
                                                             data-price="{{ $item['price'] }}"
-                                                            value="{{ $item['quantity'] }}" name="cart[{{$key}}][quantity]">
-                                                        
+                                                            value="{{ $item['quantity'] }}"
+                                                            name="cart[{{ $key }}][quantity]">
+
                                                     </div>
                                                 </td>
                                                 <td class="pro-subtotal">
@@ -96,7 +107,7 @@
                             <!-- Cart Update Option -->
                             <div class="cart-update-option d-block d-md-flex justify-content-end">
                                 <div class="cart-update">
-                                    <button  type="submit" class="btn btn-sqr">Update Cart</button>
+                                    <button type="submit" class="btn btn-sqr">Update Cart</button>
                                 </div>
                             </div>
                         </form>
@@ -112,24 +123,24 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <tr>
-                                            <td>Tien don hang</td>
+                                            <td>Sub Total</td>
                                             <td class="sub-total">{{ number_format($subTotal, 0, '', '.') }}
                                                 đ</td>
                                         </tr>
                                         <tr>
-                                            <td>Tien ship</td>
+                                            <td>Shipping</td>
                                             <td class="shipping">{{ number_format($shipping, 0, '', '.') }}
                                                 đ</td>
                                         </tr>
                                         <tr class="total">
-                                            <td>Tong tien</td>
+                                            <td>Total Amount</td>
                                             <td class="total-amount">{{ number_format($total, 0, '', '.') }}
                                                 đ</td>
                                         </tr>
                                     </table>
                                 </div>
                             </div>
-                            <a href="checkout.html" class="btn btn-sqr d-block">Proceed Checkout</a>
+                            <a href="{{ route('orders.create') }}" class="btn btn-sqr d-block">Proceed Checkout</a>
                         </div>
                     </div>
                 </div>
