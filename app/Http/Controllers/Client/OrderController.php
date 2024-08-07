@@ -18,6 +18,15 @@ class OrderController extends Controller
      */
     public function index()
     {
+        $orders = Auth::user()->orders;
+
+        $statusOrder = Order::STATUS_ORDER;
+
+        $type_wait_for_comfirmation = Order::WAIT_FOR_CONFIRMATION;
+
+        $type_shipping = Order::SHIPPING;
+
+        return view('clients.orders.index', compact('orders', 'statusOrder', 'type_wait_for_comfirmation', 'type_shipping'));
     }
 
     /**
@@ -96,15 +105,12 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        $order = Order::query()->findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $statusOrder = Order::STATUS_ORDER;
+        $statusPayment = Order::STATUS_PAYMENT;
+        
+        return view('clients.orders.show', compact('order', 'statusOrder', 'statusPayment' ));
     }
 
     /**
@@ -112,7 +118,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
     /**

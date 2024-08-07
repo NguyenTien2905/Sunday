@@ -106,6 +106,7 @@
                                             <li><a href="">login</a></li>
                                             <li><a href="login-register.html">register</a></li>
                                             <li><a href="my-account.html">my account</a></li>
+                                            <li><a href="{{ route('orders.index') }}">my order</a></li>
                                         </ul>
                                     </li>
                                     <li>
