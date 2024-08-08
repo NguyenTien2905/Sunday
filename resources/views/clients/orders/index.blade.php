@@ -72,15 +72,19 @@
                                                 <a href="{{ route('orders.show', $item->id) }}" class="btn btn-sqr">
                                                     View
                                                 </a>
-                                                <form action="{{ route('orders.update', $item->id)}}" method="post" class="d-inline">
+                                                <form action="{{ route('orders.update', $item->id) }}" method="post"
+                                                    class="d-inline">
                                                     @csrf
                                                     @method('PUT')
                                                     @if ($item->status_order === $type_wait_for_comfirmation)
                                                         <input type="hidden" name="cancel" value="1">
-                                                        <button class="btn btn-sqr bg-danger" type="submit" onclick="return confirm('Bạn có chắc chắn hủy đơn hàng không ?')">Hủy</button>
+                                                        <button class="btn btn-sqr bg-danger" type="submit"
+                                                            onclick="return confirm('Bạn có chắc chắn hủy đơn hàng không ?')">Hủy</button>
                                                     @elseif($item->status_order === $type_shipping)
-                                                    <input type="hidden" name="delivered" value="1">
-                                                    <button class="btn btn-sqr bg-success" type="submit" onclick="return confirm('Xác nhận bạn đã nhận hàng ')">Đã nhận hàng</button>
+                                                        <input type="hidden" name="delivered" value="1">
+                                                        <button class="btn btn-sqr bg-success" type="submit"
+                                                            onclick="return confirm('Xác nhận bạn đã nhận hàng ')">Đã nhận
+                                                            hàng</button>
                                                     @endif
                                                 </form>
                                             </td>

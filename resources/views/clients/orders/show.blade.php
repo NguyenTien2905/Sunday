@@ -47,8 +47,6 @@
                                 <p>Ghi chú: <strong>{{ $order->note }}</strong></p>
                                 <p>Trạng thái đơn hàng: <strong>{{ $statusOrder[$order->status_order] }}</strong></p>
                                 <p>Trạng thái thanh toán: <strong>{{ $statusPayment[$order->status_payment] }}</strong></p>
-
-
                             </div>
 
                         </div>

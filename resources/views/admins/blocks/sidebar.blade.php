@@ -57,6 +57,13 @@
                     </a>
                 </li>
 
+
+                <li>
+                    <a class='tp-link' href='{{ route('admins.orders.index') }}'>
+                        <i data-feather="package"></i>
+                        <span> Đơn hàng  </span>
+                    </a>
+                </li>
             </ul>
 
         </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\client\CartController;
@@ -87,4 +88,14 @@ Route::middleware(['auth', 'auth.admin'])->prefix('admins')
                 Route::put('{id}/update',       [ProductController::class, 'update'])->name('update');
                 Route::delete('{id}/delete',    [ProductController::class, 'destroy'])->name('delete');
             });
+
+         // Route Đơn hàng
+         Route::prefix('orders')
+         ->as('orders.')
+         ->group(function () {
+             Route::get('/',                 [AdminOrderController::class, 'index'])->name('index');
+             Route::get('/show/{id}',        [AdminOrderController::class, 'show'])->name('show');
+             Route::put('{id}/update',       [AdminOrderController::class, 'update'])->name('update');
+             Route::delete('{id}/delete',    [AdminOrderController::class, 'destroy'])->name('delete');
+         });
     });

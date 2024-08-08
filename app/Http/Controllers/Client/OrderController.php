@@ -93,11 +93,11 @@ class OrderController extends Controller
             Mail::to($order->email_receiver)->queue(new OrderConfirm($order));
 
             return redirect()->route('orders.index')->with('success', 'Tạo đơn hàng thành công');
-            } catch (\Exception $exception) {
-                DB::rollBack();
+        } catch (\Exception $exception) {
+            DB::rollBack();
 
-                return redirect()->route('cart.list')->with('error', 'Có lỗi khi tạo đơn hàng. Vui lòng thử lại sau');
-            }
+            return redirect()->route('cart.list')->with('error', 'Có lỗi khi tạo đơn hàng. Vui lòng thử lại sau');
+        }
     }
 
     /**
@@ -109,8 +109,8 @@ class OrderController extends Controller
 
         $statusOrder = Order::STATUS_ORDER;
         $statusPayment = Order::STATUS_PAYMENT;
-        
-        return view('clients.orders.show', compact('order', 'statusOrder', 'statusPayment' ));
+
+        return view('clients.orders.show', compact('order', 'statusOrder', 'statusPayment'));
     }
 
     /**
@@ -118,7 +118,22 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+        $order = Order::query()->findOrFail($id);
+
+        DB::beginTransaction();
+
+        try {
+            if ($request->has('cancel')) {
+                $order->update(['status_order' => Order::CANCELED]);
+            } else if ($request->has('delivered')) {
+                $order->update(['status_order' => Order::DELIVERED]);
+            }
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+        }
+        return redirect()->back();
     }
 
     /**
