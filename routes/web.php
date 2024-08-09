@@ -5,9 +5,9 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\client\CartController;
+use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\ProductController as ClientProductController;
-use App\Http\Controllers\HomeController;
 use App\Http\Middleware\CheckRoleAdminMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,8 +30,23 @@ Auth::routes();
 
 
 // Route Client
-// Route::get('/', [HomeController::class, 'index'])->name('client.home');
+
+// Trang chủ
+Route::get('/', [HomeController::class, 'index'])->name('client.home');
+Route::get('/introduce', [HomeController::class, 'introduce'])->name('client.introduce');
+Route::get('/contact', [HomeController::class, 'contact'])->name('client.contact');
+
+
+
+// Route Show Sản phẩm
 Route::get('/products/detail/{id}',     [ClientProductController::class, 'detail'])->name('product.detail');
+Route::get('/products/all',            [ClientProductController::class, 'getAll'])->name('product.getAll');
+Route::get('/products/categories/{id}',            [ClientProductController::class, 'getProByCat'])->name('product.getProbyCat');
+
+
+
+
+//Route giỏ hàng
 Route::get('/list-cart',                [CartController::class, 'listCart'])->name('cart.list');
 Route::post('/add-to-cart',             [CartController::class, 'addCart'])->name('cart.add');
 Route::post('/update-cart',             [CartController::class, 'updateCart'])->name('cart.update');
@@ -48,11 +63,6 @@ Route::middleware('auth')
         Route::get('/show/{id}',    [OrderController::class, 'show'])->name('show');
         Route::put('{id}/update',   [OrderController::class, 'update'])->name('update');
     });
-
-
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 
 // Route Admin
 Route::middleware(['auth', 'auth.admin'])->prefix('admins')
@@ -92,6 +102,16 @@ Route::middleware(['auth', 'auth.admin'])->prefix('admins')
          // Route Đơn hàng
          Route::prefix('orders')
          ->as('orders.')
+         ->group(function () {
+             Route::get('/',                 [AdminOrderController::class, 'index'])->name('index');
+             Route::get('/show/{id}',        [AdminOrderController::class, 'show'])->name('show');
+             Route::put('{id}/update',       [AdminOrderController::class, 'update'])->name('update');
+             Route::delete('{id}/delete',    [AdminOrderController::class, 'destroy'])->name('delete');
+         });
+
+         // Route Tài khoản
+         Route::prefix('users')
+         ->as('users.')
          ->group(function () {
              Route::get('/',                 [AdminOrderController::class, 'index'])->name('index');
              Route::get('/show/{id}',        [AdminOrderController::class, 'show'])->name('show');

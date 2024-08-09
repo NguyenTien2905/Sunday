@@ -487,7 +487,7 @@
 		max: maxPrice,
 		values: [minPrice, maxPrice],
 		slide: function (event, ui) {
-			amount.val("$" + ui.values[0] + " - $" + ui.values[1]);
+			amount.val("$	" + ui.values[0] + " - $" + ui.values[1]);
 		}
 	});
 	amount.val(" $" + rangeSlider.slider("values", 0) +
